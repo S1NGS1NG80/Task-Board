@@ -112,9 +112,9 @@ function handleAddTask(event) {
   // Create a new task object
   const newTask = {
     id: generateTaskId(),
-    title: title,
-    description: description,
-    dueDate: date,
+    title,
+    description,
+    date,
     status: 'to-do'
   };
 
