@@ -119,7 +119,6 @@ function handleAddTask(event) {
   };
 
   const taskList = readTasksFromStorage();
-
   // Add the new task to the tasks array
   taskList.push(newTask);
 
@@ -129,9 +128,9 @@ function handleAddTask(event) {
   renderTaskList();
 
   // Clear the form inputs
-  titleEL.val('');
-  descriptionEL.val('');
-  dateEL.val('');
+  title.val('');
+  description.val('');
+  date.val('');
 }
 
 
@@ -171,9 +170,9 @@ function handleDrop(event, ui) {
   localStorage.setItem('tasks', JSON.stringify(taskList));
   renderTaskList();
 }
-
 const modalEl = $('.modal-content');
 modalEl.on('submit', handleAddTask);
+
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
