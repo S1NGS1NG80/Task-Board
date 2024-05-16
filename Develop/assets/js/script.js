@@ -1,19 +1,20 @@
 // Retrieve tasks and nextId from localStorage
-function readTasksFromStorage() {
-  let taskList = JSON.parse(localStorage.getItem("tasks"));
 
-  if (!taskList) {
-    taskList = [];
-  }
-  return taskList;
-}
 let nextId = JSON.parse(localStorage.getItem("nextId"));
+let taskList = JSON.parse(localStorage.getItem("tasks"));
+
+// function readTasksFromStorage() {
+//   let taskList = JSON.parse(localStorage.getItem("tasks"));
+
+//   if (!taskList) {
+//     taskList = [];
+//   }
+//   return taskList;
+// }
 
 function saveTasksToStorage(taskList) {
   localStorage.setItem('tasks', JSON.stringify(taskList));
 }
-
-
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
@@ -22,6 +23,7 @@ function generateTaskId() {
 
   return `task_${timestamp}_${randomNum}`;
 }
+
 // Todo: 
 function createTaskCard(task) {
 
@@ -62,7 +64,7 @@ function createTaskCard(task) {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-  const tasks = readTasksFromStorage();
+  // const tasks = readTasksFromStorage();
 
   const todoList = $('#todo-cards');
   todoList.empty();
@@ -74,7 +76,7 @@ function renderTaskList() {
   doneList.empty();
 
   // Loop through tasks and create project cards for each status
-  for (let task of tasks) {
+  for (let task of taskList) {
     if (task.status === 'to-do') {
       todoList.append(createTaskCard(task));
     } else if (task.status === 'in-progress') {
@@ -118,7 +120,7 @@ function handleAddTask(event) {
     status: 'to-do'
   };
 
-  const taskList = readTasksFromStorage();
+  // const taskList = readTasksFromStorage();
   // Add the new task to the tasks array
   taskList.push(newTask);
 
@@ -137,17 +139,17 @@ function handleAddTask(event) {
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event) {
   const taskId = $(this).attr('data-task-id');
-  const tasks = readTasksFromStorage();
+  // const tasks = readTasksFromStorage();
 
   // Remove task from the array. There is a method called `filter()` for this that is better suited which we will go over in a later activity. For now, we will use a `forEach()` loop to remove the task.
-  tasks.forEach((task) => {
+  taskList.forEach((task) => {
     if (task.id === nextId) {
-      tasks.splice(tasks.indexOf(task), 1);
+      taskList.splice(taskList.indexOf(task), 1);
     }
   });
 
   // helper function to save the tasks to localStorage
-  saveTasksToStorage(tasks);
+  saveTasksToStorage(taskList);
 
   // function to print tasks back to the screen
   renderTaskList();
@@ -157,11 +159,11 @@ function handleDeleteTask(event) {
 function handleDrop(event, ui) {
 
   // Add a drop event listener to each task element
-  const tasks = readTasksFromStorage();
+  // const tasks = readTasksFromStorage();
   const taskID = nextId;
   const newStatus = event.target.id;
 
-  for (let task of tasks) {
+  for (let task of taskList) {
 
     if (task.id === taskID) {
       task.status = newStatus;
@@ -170,15 +172,16 @@ function handleDrop(event, ui) {
   localStorage.setItem('tasks', JSON.stringify(taskList));
   renderTaskList();
 }
+const modalEl = $('.modal-content');
+modalEl.on('submit', handleAddTask);
 
 
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
-const modalEl = $('.modal-content');
-modalEl.on('submit', handleAddTask);
+
   // Render the task list
-  renderTaskList();
+  // renderTaskList();
   // Initialize the date picker for the due date field
   $('#datepicker').datepicker({
     changeMonth: true,
