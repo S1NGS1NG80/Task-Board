@@ -22,14 +22,14 @@ function createTaskCard(task) {
     } else if (now.isAfter(date)) {
         bgColor = 'bg-danger';
     }
-    console.log("working");
-    
+
+
     return `
     <div class="task-card card mb-3 ${bgColor}" data-id="${task.id}">
       <div class="card-body">
         <h5 class="card-title">${task.title}</h5>
         <p class="card-text">${task.description}</p>
-        <p class="card-text"><small class="text-muted">Due: ${date.format('DD MMM YYYY')}</small></p>
+        <p class="card-text"><small class="text-muted">Due: ${date.format('DD/MMM/YYYY')}</small></p>
         <button class="btn btn-danger btn-sm delete-task">Delete</button>
       </div>
     </div>`;
@@ -38,7 +38,7 @@ function createTaskCard(task) {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-    $("#todo-cards, #in-progress-cards, #done-cards").empty();
+    $("#to-do-cards, #in-progress-cards, #done-cards").empty();
 
     taskList.forEach(task => {
         const taskCard = createTaskCard(task);
@@ -70,11 +70,12 @@ function handleAddTask(event) {
 
         // Add the new task to the tasks array
         taskList.push(newTask);
-        // saveTasksToStorage(taskList);
+        // save tasks to storage (taskList)
         localStorage.setItem("tasks", JSON.stringify(taskList));
 
         // Re-render the task list with the new task included
         renderTaskList();
+        $("#formModal").modal('hide');
     }
 }
 
@@ -99,8 +100,7 @@ function handleDrop(event, ui) {
     const task = taskList.find(task => task.id === Number(taskID));
     if (task) {
         task.status = newStatus;
-
-        // saveTasksToStorage(taskList);
+        // save tasks to storage (taskList)
         localStorage.setItem("tasks", JSON.stringify(taskList));
         renderTaskList();
     }
