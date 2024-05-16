@@ -44,7 +44,7 @@ function renderTaskList() {
     });
     $(".delete-task").on("click", handleDeleteTask);
     $(".task-card").draggable({
-        opacity: 0.7, zIndex: 100
+        opacity:0.7, zIndex:100
     });
 }
 
