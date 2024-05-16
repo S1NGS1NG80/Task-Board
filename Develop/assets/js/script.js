@@ -22,8 +22,10 @@ function createTaskCard(task) {
     } else if (now.isAfter(date)) {
         bgColor = 'bg-danger';
     }
-
-    return `<div class="task-card card mb-3 ${bgColor}" data-id="${task.id}">
+    console.log("working");
+    
+    return `
+    <div class="task-card card mb-3 ${bgColor}" data-id="${task.id}">
       <div class="card-body">
         <h5 class="card-title">${task.title}</h5>
         <p class="card-text">${task.description}</p>
@@ -31,6 +33,7 @@ function createTaskCard(task) {
         <button class="btn btn-danger btn-sm delete-task">Delete</button>
       </div>
     </div>`;
+
 }
 
 // Todo: create a function to render the task list and make cards draggable
@@ -103,8 +106,6 @@ function handleDrop(event, ui) {
     }
 }
 
-$('.modal-content').on('submit', handleAddTask);
-
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
 
@@ -121,7 +122,7 @@ $(document).ready(function () {
         $("#formControlTextarea1").val('');
         $("#datepicker").val('');
     });
-
+    $('.modal-content').on('submit', handleAddTask);
     // Make lanes droppable for task movement
     $('.lane').droppable({
         accept: ".task-card",
