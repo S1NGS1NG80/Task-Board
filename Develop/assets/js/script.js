@@ -1,19 +1,17 @@
 // Retrieve tasks and nextId from localStorage
+let taskList = JSON.parse(localStorage.getItem('tasks'));
+let nextId = JSON.parse(localStorage.getItem('nextId'));
 
-let nextId = JSON.parse(localStorage.getItem("nextId"));
-let taskList = JSON.parse(localStorage.getItem("tasks"));
+function readTasksFromStorage() {
+  // let taskList = JSON.parse(localStorage.getItem("tasks"));
+  if (!taskList) {
+    taskList = [];
+  }
+  return taskList;
+}
 
-// function readTasksFromStorage() {
-//   let taskList = JSON.parse(localStorage.getItem("tasks"));
-
-//   if (!taskList) {
-//     taskList = [];
-//   }
-//   return taskList;
-// }
-
-function saveTasksToStorage(taskList) {
-  localStorage.setItem('tasks', JSON.stringify(taskList));
+function saveTasksToStorage(tasks) {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 // Todo: create a function to generate a unique task id
@@ -64,7 +62,7 @@ function createTaskCard(task) {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-  // const tasks = readTasksFromStorage();
+  const tasks = readTasksFromStorage();
 
   const todoList = $('#todo-cards');
   todoList.empty();
@@ -76,7 +74,7 @@ function renderTaskList() {
   doneList.empty();
 
   // Loop through tasks and create project cards for each status
-  for (let task of taskList) {
+  for (let task of tasks) {
     if (task.status === 'to-do') {
       todoList.append(createTaskCard(task));
     } else if (task.status === 'in-progress') {
@@ -120,11 +118,11 @@ function handleAddTask(event) {
     status: 'to-do'
   };
 
-  // const taskList = readTasksFromStorage();
+  const tasks = readTasksFromStorage();
   // Add the new task to the tasks array
-  taskList.push(newTask);
+  tasks.push(newTask);
 
-  saveTasksToStorage(taskList);
+  saveTasksToStorage(tasks);
 
   // Re-render the task list with the new task included
   renderTaskList();
@@ -139,12 +137,12 @@ function handleAddTask(event) {
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event) {
   const taskId = $(this).attr('data-task-id');
-  // const tasks = readTasksFromStorage();
+  const tasks = readTasksFromStorage();
 
   // Remove task from the array. There is a method called `filter()` for this that is better suited which we will go over in a later activity. For now, we will use a `forEach()` loop to remove the task.
-  taskList.forEach((task) => {
+  tasks.forEach((task) => {
     if (task.id === nextId) {
-      taskList.splice(taskList.indexOf(task), 1);
+      tasks.splice(tasks.indexOf(task), 1);
     }
   });
 
@@ -159,7 +157,7 @@ function handleDeleteTask(event) {
 function handleDrop(event, ui) {
 
   // Add a drop event listener to each task element
-  // const tasks = readTasksFromStorage();
+  const tasks = readTasksFromStorage();
   const taskID = nextId;
   const newStatus = event.target.id;
 
