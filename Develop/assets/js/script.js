@@ -102,8 +102,8 @@ function handleDrop(event, ui) {
         renderTaskList();
     }
 }
-const modalEl = $('.modal-content');
-modalEl.on('submit', handleAddTask);
+
+$('.modal-content').on('submit', handleAddTask);
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
